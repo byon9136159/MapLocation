@@ -2,19 +2,15 @@ package com.example.maplocation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 
 import android.Manifest;
 import android.app.FragmentManager;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -28,7 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.gun0912.tedpermission.TedPermission;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback      {
 
@@ -64,12 +59,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.addMarker(markerOptions);
         mUiSettings = googleMap.getUiSettings();
         mUiSettings.setZoomControlsEnabled(true);
-        CircleOptions circle1km = new CircleOptions().center(location)
+        CircleOptions circle1km = new CircleOptions().center(location) ///원만들기
                 .radius(1000)
                 .strokeWidth(0) // 선넓
                 .fillColor(Color.parseColor("#880000ff"));
         googleMap.addCircle(circle1km);
-
+        //// 위치 허가
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -84,17 +79,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .getLastLocation();
 
         }
-        googleMap.setMyLocationEnabled(true);
+        googleMap.setMyLocationEnabled(true); // 위치버튼 추가
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
+                        if (location != null) {    // 위치가 있을때
                             lat = location.getLatitude();
                             lng = location.getLongitude();
-                            Log.e("TAG", "location sussess");
+                            Log.e("TAG", "location sussess");    // 잘 됫으면 로그 출력
                             LatLng location1 = new LatLng(lat, lng);
                             MarkerOptions markerOptions1 = new MarkerOptions();
                             markerOptions1.title("현재위치");
